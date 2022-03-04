@@ -33,7 +33,7 @@ jobs:
       - run:
           name: "Generate App key"
           command: php artisan key:generate
-  deploy:
+  deploy_app:
     executor: heroku/default
     steps:
       - checkout
@@ -43,3 +43,8 @@ jobs:
             heroku --version
       - heroku/deploy-via-git:
           force: true
+workflows:
+  deploy:
+    jobs:
+      - build
+      - deploy_app
