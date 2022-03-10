@@ -29,10 +29,6 @@ jobs:
           key: v1-dependencies-{{ checksum "composer.json" }}
           paths:
             - ./vendor
-
-      - run:
-          name: "Generate App key"
-          command: php artisan key:generate
   deploy_app:
     executor: heroku/default
     steps:
