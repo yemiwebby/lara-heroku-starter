@@ -37,7 +37,7 @@ jobs:
       - run:
           command: |
             heroku --version
-            heroku run --app=${HEROKU_APP_NAME} php artisan migrate
+            heroku run --app=${HEROKU_APP_NAME} php artisan migrate:fresh
       - heroku/deploy-via-git:
           force: true
 workflows:
