@@ -36,9 +36,9 @@
                 <td>
                     <form action="{{ route('authors.destroy',$author->id) }}" method="POST">
 
-                        <a class="btn btn-info" href="{{ route('authors.show',$author->id) }}">Show</a>
+                        <a class="btn btn-info" href="{{ route('authors.show',$author->id) }}"> Show </a>
 
-                        <a class="btn btn-primary" href="{{ route('authors.edit',$author->id) }}">Edit</a>
+                        <a class="btn btn-primary" href="{{ route('authors.edit',$author->id) }}"> Edit </a>
 
                         @csrf
                         @method('DELETE')
