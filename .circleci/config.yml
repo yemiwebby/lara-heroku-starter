@@ -37,6 +37,7 @@ jobs:
       - run:
           command: |
             heroku --version
+            heroku run php artisan migrate
       - heroku/deploy-via-git:
           force: true
 workflows:
