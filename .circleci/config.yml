@@ -54,7 +54,7 @@ workflows:
       - build
       - deploy_app
   db:
-    when: << parameters.run-migrations >>
+    when: << pipeline.parameters.run-migrations >>
     jobs:
       - create_db:
           run-migrations: false
