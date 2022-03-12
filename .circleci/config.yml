@@ -57,4 +57,6 @@ workflows:
     when: << pipeline.parameters.run-migrations >>
     jobs:
       - create_db:
-          pipeline.parameters.run-migrations: false
+          pipeline:
+            parameters:
+              run-migrations : false
