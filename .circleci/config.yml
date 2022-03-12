@@ -8,11 +8,6 @@ jobs:
 
     steps:
       - checkout
-      - run:
-          name: "Create Environment file"
-          command: |
-            cp .env.example .env
-
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -37,11 +32,29 @@ jobs:
       - run:
           command: |
             heroku --version
-#            heroku run --app=${HEROKU_APP_NAME} php artisan migrate:fresh
       - heroku/deploy-via-git:
           force: true
+  create_db:
+    executor: heroku/default
+    steps:
+      - checkout
+      - heroku/install
+      - run:
+          command: |
+            heroku run --app=${HEROKU_APP_NAME} php artisan migrate:fresh
+
+parameters:
+  run-migrations:
+    type: boolean
+    default: true
+
 workflows:
   deploy:
     jobs:
       - build
       - deploy_app
+  db:
+    when: << parameters.run-migrations >>
+    jobs:
+      - create_db:
+          run-migrations: false
