@@ -27,7 +27,7 @@ jobs:
   deploy_app:
     executor: heroku/default
     parameters:
-      run-migrations:
+      run_migrations:
         type: boolean
         default: true
     steps:
@@ -36,7 +36,7 @@ jobs:
       - heroku/deploy-via-git:
           force: true
       - when:
-          condition: << parameters.run-migrations >>
+          condition: << parameters.run_migrations >>
           steps:
             - run:
                 command: |
@@ -46,4 +46,4 @@ workflows:
     jobs:
       - build
       - deploy_app:
-          run-migrations: false
+          run_migrations: false
