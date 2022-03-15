@@ -31,27 +31,11 @@ jobs:
       - run:
           command: |
             heroku --version
+            heroku run --app=${HEROKU_APP_NAME} php artisan migrate
       - heroku/deploy-via-git:
           force: true
-  create_db:
-    executor: heroku/default
-    steps:
-      - checkout
-      - heroku/install
-      - run:
-          command: |
-            heroku run --app=${HEROKU_APP_NAME} php artisan migrate:fresh
-
-parameters:
-  run_migrations:
-    type: boolean
-    default: true
 workflows:
   deploy:
     jobs:
       - build
       - deploy_app
-  db:
-    when: << pipeline.parameters.run_migrations >>
-    jobs:
-      - create_db
