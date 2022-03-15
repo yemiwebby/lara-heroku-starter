@@ -52,8 +52,6 @@ workflows:
       - build
       - deploy_app
   db:
-  when: << pipeline.parameters.run_migrations >>
-  jobs:
-    - create_db:
-        requires:
-          - deploy_app
+    when: << pipeline.parameters.run_migrations >>
+    jobs:
+      - create_db
