@@ -49,7 +49,6 @@ parameters:
     default: true
 workflows:
   deploy:
-    when:
     jobs:
       - build
       - deploy_app
