@@ -26,24 +26,34 @@ jobs:
             - ./vendor
   deploy_app:
     executor: heroku/default
-    parameters:
-      run_migrations:
-        type: boolean
-        default: true
     steps:
       - checkout
       - heroku/install
+      - run:
+          command: |
+            heroku --version
       - heroku/deploy-via-git:
           force: true
-      - when:
-          condition: << parameters.run_migrations >>
-          steps:
-            - run:
-                command: |
-                  heroku run --app=${HEROKU_APP_NAME} php artisan migrate:fresh
+  create_db:
+    executor: heroku/default
+    steps:
+      - checkout
+      - heroku/install
+      - run:
+          command: |
+            heroku run --app=${HEROKU_APP_NAME} php artisan migrate:fresh
+
+parameters:
+  run_migrations:
+    type: boolean
+    default: true
 workflows:
   deploy:
+    when:
     jobs:
       - build
-      - deploy_app:
-          run_migrations: false
+      - deploy_app
+  db:
+    when: << parameters.run_migrations >>
+    jobs:
+      - create_db
